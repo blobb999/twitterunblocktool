@@ -3,7 +3,7 @@
 #When the "Start Browser" button is clicked, the program uses the Firefox browser to navigate to the Twitter login page. When the "Browse Blocked User IDs" button is clicked, a file dialog opens to allow the user to select a file containing the list of blocked user IDs. When the "Unblock Users" button is clicked, the program reads the user IDs from the selected file, navigates to the Twitter page for each user, clicks the "Blocked" button, waits for the confirmation prompt to appear, and then clicks the "Unblock" button. The program also includes an option to set the frequency at which users are unblocked.
 #Finally, the program includes a main section that creates an instance of the "TwitterUnblockTool" class and starts the GUI event loop using the tkinter "mainloop()" function.
 
-[code]import tkinter as tk
+import tkinter as tk
 from tkinter import filedialog
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
@@ -105,4 +105,3 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = TwitterUnblockTool(root)
     root.mainloop()
-[/code]

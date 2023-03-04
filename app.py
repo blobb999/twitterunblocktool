@@ -1,7 +1,10 @@
-#This is a Python program that uses the tkinter library to create a graphical user interface for unblocking Twitter users. The program uses the Selenium library to automate the process of unblocking users.
-#The program starts by importing the necessary libraries, including tkinter, filedialog, and selenium. It then defines a class called "TwitterUnblockTool", which creates the GUI elements and defines the functions for interacting with Twitter. The GUI elements include buttons for starting the browser, browsing for a file containing the list of blocked user IDs, and unblocking users.
-#When the "Start Browser" button is clicked, the program uses the Firefox browser to navigate to the Twitter login page. When the "Browse Blocked User IDs" button is clicked, a file dialog opens to allow the user to select a file containing the list of blocked user IDs. When the "Unblock Users" button is clicked, the program reads the user IDs from the selected file, navigates to the Twitter page for each user, clicks the "Blocked" button, waits for the confirmation prompt to appear, and then clicks the "Unblock" button. The program also includes an option to set the frequency at which users are unblocked.
-#Finally, the program includes a main section that creates an instance of the "TwitterUnblockTool" class and starts the GUI event loop using the tkinter "mainloop()" function.
+#This program is a GUI tool for unblocking Twitter users in bulk using Selenium. It imports tkinter, filedialog, selenium, and time modules. 
+#It defines a class called TwitterUnblockTool that has methods for starting the browser, browsing for a file containing a list of blocked user IDs, 
+#and unblocking the users. The class also has XPaths for the block and unblock buttons. The GUI elements include buttons for starting the browser, 
+#browsing for a file, and unblocking users, labels for displaying the unblock frequency, total unblocks, and total IDs to unblock. 
+#The program uses Firefox browser and Geckodriver location for launching the browser. The user selects the file containing the list of blocked user IDs, 
+#and the program reads and loops through the file to unblock each user. The program displays the total number of IDs unblocked in the GUI and closes the 
+#browser window.
 
 import tkinter as tk
 from tkinter import filedialog
@@ -113,5 +116,3 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = TwitterUnblockTool(root)
     root.mainloop()
-
-

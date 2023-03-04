@@ -17,8 +17,8 @@ import time
 
 class TwitterUnblockTool:
     # XPaths for the block and unblock buttons
-    block_button_xpath = "//span[contains(text(), 'Blockiert')]"
-    unblock_button_xpath = "//span[contains(text(), 'Entblocken')]"
+    block_button_xpath = "//span[contains(text(), 'Blockiert') or contains(text(), 'Blocked')]"
+    unblock_button_xpath = "//span[contains(text(), 'Entblocken') or contains(text(), 'Unblock')]"
 
     def __init__(self, master):
         self.master = master

@@ -67,11 +67,17 @@ class TwitterUnblockTool:
         self.blocked_file_path = filedialog.askopenfilename(title="Select Blocked User IDs File")
         print(f"Selected file path: {self.blocked_file_path}")
 
-    def unblock_users(self):
-        # Read the blocked user IDs from the selected file
+        # Read the number of blocked user IDs from the selected file
         with open(self.blocked_file_path, "r") as f:
-            blocked_user_ids = f.readlines()
-        print(f"Blocked user IDs: {blocked_user_ids}")
+            blocked_user_ids = [line.strip() for line in f.readlines()]
+
+        # Update the total_ids_label with the number of blocked user IDs
+        total_blocked_user_ids = len(blocked_user_ids)
+        self.total_ids_label.config(text=f"Total IDs to unblock: {total_blocked_user_ids}")
+
+    def unblock_users(self):
+        # Disable the unblock button
+        self.unblock_button.config(state="disabled")
 
         # Total number of IDs to unblock
         total_ids_to_unblock = len(blocked_user_ids)

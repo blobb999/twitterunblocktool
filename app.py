@@ -25,7 +25,8 @@ class TwitterUnblockTool:
         # Variables
         self.browser = None
         self.blocked_file_path = ""
-        self.unblock_frequency = tk.StringVar(value="5")
+        self.unblock_frequency = tk.StringVar(value="1")
+        self.total_unblocks = tk.StringVar(value="0")
 
         # GUI Elements
         self.start_browser_button = tk.Button(master, text="Start Browser", command=self.start_browser)
@@ -33,6 +34,8 @@ class TwitterUnblockTool:
         self.unblock_button = tk.Button(master, text="Unblock Users", command=self.unblock_users, state="disabled")
         self.unblock_frequency_label = tk.Label(master, text="Unblock Frequency (seconds):")
         self.unblock_frequency_entry = tk.Entry(master, textvariable=self.unblock_frequency)
+        self.total_unblocks_label = tk.Label(master, text="Total IDs Unblocked:")
+        self.total_unblocks_entry = tk.Entry(master, textvariable=self.total_unblocks, state="readonly")
 
         # Layout
         self.start_browser_button.grid(row=0, column=0, padx=5, pady=5)
@@ -40,6 +43,8 @@ class TwitterUnblockTool:
         self.unblock_frequency_label.grid(row=2, column=0, padx=5, pady=5)
         self.unblock_frequency_entry.grid(row=2, column=1, padx=5, pady=5)
         self.unblock_button.grid(row=3, column=0, padx=5, pady=5)
+        self.total_unblocks_label.grid(row=4, column=0, padx=5, pady=5)
+        self.total_unblocks_entry.grid(row=4, column=1, padx=5, pady=5)
 
 
 
@@ -67,6 +72,13 @@ class TwitterUnblockTool:
             blocked_user_ids = f.readlines()
         print(f"Blocked user IDs: {blocked_user_ids}")
 
+        # Total number of IDs to unblock
+        total_ids_to_unblock = len(blocked_user_ids)
+        print(f"Total number of IDs to unblock: {total_ids_to_unblock}")
+        # Show the total number of IDs to unblock in the GUI
+        self.total_ids_label = tk.Label(self.master, text=f"Total IDs to unblock: {total_ids_to_unblock}")
+        self.total_ids_label.grid(row=4, column=0, padx=5, pady=5)
+
         # Loop through the blocked user IDs and unblock each user
         for user_id in blocked_user_ids:
             # Go to the user's Twitter page
@@ -84,7 +96,7 @@ class TwitterUnblockTool:
                 continue
 
             # Wait for the confirmation prompt to appear
-            time.sleep(2)
+            time.sleep(1)
 
             # Click the "Unblock" button
             try:
@@ -99,9 +111,10 @@ class TwitterUnblockTool:
             time.sleep(int(self.unblock_frequency.get()))
 
         # Close the browser window
-        self.browser.quit()
+        self.browser.quit()           
 
 if __name__ == "__main__":
     root = tk.Tk()
     app = TwitterUnblockTool(root)
     root.mainloop()
+

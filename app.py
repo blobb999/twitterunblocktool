@@ -12,7 +12,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 
-
 class TwitterUnblockTool:
     # XPaths for the block and unblock buttons
     block_button_xpath = "//span[contains(text(), 'Blockiert')]"
@@ -36,6 +35,7 @@ class TwitterUnblockTool:
         self.unblock_frequency_entry = tk.Entry(master, textvariable=self.unblock_frequency)
         self.total_unblocks_label = tk.Label(master, text="Total IDs Unblocked:")
         self.total_unblocks_entry = tk.Entry(master, textvariable=self.total_unblocks, state="readonly")
+        self.total_ids_label = tk.Label(master, text="Total IDs to unblock: 0")
 
         # Layout
         self.start_browser_button.grid(row=0, column=0, padx=5, pady=5)
@@ -45,8 +45,7 @@ class TwitterUnblockTool:
         self.unblock_button.grid(row=3, column=0, padx=5, pady=5)
         self.total_unblocks_label.grid(row=4, column=0, padx=5, pady=5)
         self.total_unblocks_entry.grid(row=4, column=1, padx=5, pady=5)
-
-
+        self.total_ids_label.grid(row=5, column=0, padx=5, pady=5)
 
     def start_browser(self):
         # Set Firefox binary path and Geckodriver location
@@ -65,7 +64,6 @@ class TwitterUnblockTool:
         self.blocked_file_path = filedialog.askopenfilename(title="Select Blocked User IDs File")
         print(f"Selected file path: {self.blocked_file_path}")
 
-
     def unblock_users(self):
         # Read the blocked user IDs from the selected file
         with open(self.blocked_file_path, "r") as f:
@@ -74,11 +72,6 @@ class TwitterUnblockTool:
 
         # Total number of IDs to unblock
         total_ids_to_unblock = len(blocked_user_ids)
-        print(f"Total number of IDs to unblock: {total_ids_to_unblock}")
-        # Show the total number of IDs to unblock in the GUI
-        self.total_ids_label = tk.Label(self.master, text=f"Total IDs to unblock: {total_ids_to_unblock}")
-        self.total_ids_label.grid(row=4, column=0, padx=5, pady=5)
-
         # Loop through the blocked user IDs and unblock each user
         for user_id in blocked_user_ids:
             # Go to the user's Twitter page
@@ -110,11 +103,15 @@ class TwitterUnblockTool:
             # Wait before unblocking the next user
             time.sleep(int(self.unblock_frequency.get()))
 
+        # Show the total number of IDs unblocked in the GUI
+        self.total_unblocks.set(str(total_ids_to_unblock))
+
         # Close the browser window
-        self.browser.quit()           
+        self.browser.quit()
 
 if __name__ == "__main__":
     root = tk.Tk()
     app = TwitterUnblockTool(root)
     root.mainloop()
+
 

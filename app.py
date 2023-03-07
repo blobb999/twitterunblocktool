@@ -14,7 +14,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import time
-import threading
 
 class TwitterUnblockTool:
     # XPaths for the block and unblock buttons
@@ -76,19 +75,6 @@ class TwitterUnblockTool:
         total_blocked_user_ids = len(blocked_user_ids)
         self.total_ids_label.config(text=f"Total IDs to unblock: {total_blocked_user_ids}")
 
-    # Add Threading for updating total of unblocked IDs while progress
-    def update_total_unblocks(self):
-        while True:
-            # Get the current number of unblocked IDs
-            num_unblocks = self.total_unblocks.get()
-            # Update the GUI field
-            self.total_unblocks_entry.config(state="normal")
-            self.total_unblocks_entry.delete(0, tk.END)
-            self.total_unblocks_entry.insert(0, str(num_unblocks))
-            self.total_unblocks_entry.config(state="readonly")
-            # Wait for 1 second before checking again
-            time.sleep(1)
-
     def unblock_users(self):
         # Disable the unblock button
         self.unblock_button.config(state="disabled")
@@ -99,11 +85,6 @@ class TwitterUnblockTool:
 
         # Total number of IDs to unblock
         total_ids_to_unblock = len(blocked_user_ids)
-
-        # Start the update thread
-        update_thread = threading.Thread(target=self.update_total_unblocks)
-        update_thread.start()
-
         # Loop through the blocked user IDs and unblock each user
         for user_id in blocked_user_ids:
             # Go to the user's Twitter page
@@ -134,12 +115,6 @@ class TwitterUnblockTool:
 
             # Wait before unblocking the next user
             time.sleep(int(self.unblock_frequency.get()))
-
-            # Increment the total number of unblocks
-            self.total_unblocks.set(str(int(self.total_unblocks.get()) + 1))
-
-        # Stop the update thread
-        update_thread.join()
 
         # Show the total number of IDs unblocked in the GUI
         self.total_unblocks.set(str(total_ids_to_unblock))
